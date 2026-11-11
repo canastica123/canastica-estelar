@@ -2601,7 +2601,7 @@ function contar(n) {
 /* ---------- V7: movimiento para móvil ---------- */
 function movil() {
   if (!window.matchMedia || !matchMedia("(max-width: 720px)").matches || document.documentElement.classList.contains("calm")) return;
-  const objetivos = [...document.querySelectorAll(".bt, .cmbc, .flc, .sol, .vid, .card, .cmb-fotos, .quiz, .tile, .steps5 li, .faq details")].filter(n => !n.closest("#inicio") && !n.closest(".overlay"));
+  const objetivos = [...document.querySelectorAll(".bt, .cmbc, .flc, .sol, .vid, .card, .cmb-fotos, .quiz, .tile, .steps5 li, .faq details")].filter(n => !n.closest("#inicio") && !n.closest(".overlay") && !n.closest(".fl-grid, .rail, .cmb"));
   let pendientes = objetivos.slice();
   objetivos.forEach((n, k) => {
     n.classList.add("mv");
