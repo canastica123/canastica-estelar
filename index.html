@@ -2640,7 +2640,7 @@ function movil() {
   let pe = false; const enfocarRaf = () => { if (pe) return; pe = true; requestAnimationFrame(() => { pe = false; enfocar(); }); };
   rieles.forEach(r => r.addEventListener("scroll", enfocarRaf, { passive: true }));
   /* precargar fotos de los carriles para que no haya retraso al deslizar */
-  const precargar = () => document.querySelectorAll(".rail img, .cmb img, .combos img").forEach((im, k) => { im.decoding = "async"; im.loading = "eager"; });
+  const precargar = () => document.querySelectorAll(".rail, .cmb, .combos, .fl-grid").forEach(r => [...r.querySelectorAll("img")].slice(0, 6).forEach(im => { im.decoding = "async"; im.loading = "eager"; }));
   if (document.readyState === "complete") setTimeout(precargar, 100); else addEventListener("load", () => setTimeout(precargar, 100));
   on(); setTimeout(enfocar, 300);
 }
