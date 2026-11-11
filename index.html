@@ -830,6 +830,10 @@
   .drawer-empty { display: grid; gap: 12px; padding: 28px 0; }
   .drawer-empty p { color: var(--muted); }
   .drawer-empty .row-b { display: flex; gap: 10px; flex-wrap: wrap; }
+  .cli-datos { display:grid; gap:6px; margin:0 0 14px; }
+  .cli-datos label { font-size:.8rem; font-weight:700; letter-spacing:.04em; color:var(--muted); }
+  .cli-datos input { width:100%; padding:12px 14px; border:1px solid #d9d4c8; border-radius:10px; font:inherit; font-size:16px; background:#fff; color:var(--ink); margin-bottom:6px; }
+  .cli-datos input:focus { outline:2px solid var(--gold); outline-offset:1px; }
   .pie-note, .det-trust { font-size: .82rem; color: var(--muted); display: flex; gap: 8px; align-items: flex-start; }
   .pie-note::before, .det-trust::before { content: "✓"; color: var(--gold-text); font-weight: 800; }
   .det-trust-wrap { display: grid; gap: 6px; margin-top: 14px; padding: 14px; background: var(--beige); border-radius: 14px; }
@@ -1375,6 +1379,12 @@
     <div class="mon-row"><span>Ver precios en</span><div class="mon" role="group" aria-label="Moneda" data-m="COP"><button type="button" data-m="COP" aria-pressed="true">COP</button><button type="button" data-m="USD" aria-pressed="false">USD</button></div></div>
     <div class="items" id="items"></div>
     <div id="pedido-pie">
+      <div class="cli-datos">
+        <label for="cli-nombre">Tu nombre</label>
+        <input id="cli-nombre" type="text" autocomplete="name" placeholder="Ej: María Pérez" maxlength="60">
+        <label for="cli-desde">Te escribo desde</label>
+        <input id="cli-desde" type="text" autocomplete="address-level2" placeholder="Ciudad o zona de entrega" maxlength="80">
+      </div>
       <div class="total"><span>Total estimado</span><span id="total">$0</span></div>
       <p class="note">Precios en pesos o dólares. Te confirmamos disponibilidad, total final y entrega por WhatsApp.</p>
       <a class="btn btn-wa btn-block" id="enviar" href="#contacto" target="_blank" rel="noopener">Enviar pedido por WhatsApp</a>
@@ -2491,9 +2501,16 @@ function pintarPedido() {
   });
   const msg = "Hola Canastica Estelar, quiero hacer este pedido:\n\n" + lineas.join("\n") +
     "\n\nTotal estimado: " + dinero(total) + (MONEDA === "USD" ? " (tasa 1 US$ = " + miles(TASA) + " pesos)" : "") + (sinPrecio ? " + productos por confirmar" : "") +
-    "\n\nMi nombre:\nZona de entrega:";
+    "\n\nMi nombre: " + ($("#cli-nombre").value.trim() || "(sin nombre)") + "\nTe escribo desde: " + ($("#cli-desde").value.trim() || "(sin indicar)");
   $("#enviar").href = waLink(msg);
 }
+(function () {
+  const n = $("#cli-nombre"), d = $("#cli-desde");
+  if (!n || !d) return;
+  try { n.value = localStorage.getItem("ce_nombre") || ""; d.value = localStorage.getItem("ce_desde") || ""; } catch (e) {}
+  const ya = () => { try { localStorage.setItem("ce_nombre", n.value); localStorage.setItem("ce_desde", d.value); } catch (e) {} pintarPedido(); };
+  n.addEventListener("input", ya); d.addEventListener("input", ya);
+})();
 function abrirPedido() { ultimoFoco = document.activeElement; $("#capa-pedido").hidden = false; document.body.style.overflow = "hidden"; $("#cerrar-pedido").focus(); }
 function cerrarPedido() { $("#capa-pedido").hidden = true; if ($("#capa-detalle").hidden) document.body.style.overflow = ""; if (ultimoFoco && ultimoFoco.focus) ultimoFoco.focus(); }
 
