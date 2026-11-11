@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,500&family=Inter:wght@400;500;600;700&display=swap">
 <script defer src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
-<style>html,body{overflow-x:clip;max-width:100%}
+<style>html,body{overflow-x:clip;max-width:100%}.cmb-fotos{background:#e4dac4}.cmb-fotos img,.sol-mos img,.rail img,.vid img,.hc img,.bt img{background:#e4dac4}.sol-mos{gap:8px}
   /* Tienda de una sola vista: blanco de base, franjas negras y beige, dorado como acento. */
   :root {
     --black: #0b0b0b;
@@ -2640,8 +2640,8 @@ function movil() {
   let pe = false; const enfocarRaf = () => { if (pe) return; pe = true; requestAnimationFrame(() => { pe = false; enfocar(); }); };
   rieles.forEach(r => r.addEventListener("scroll", enfocarRaf, { passive: true }));
   /* precargar fotos de los carriles para que no haya retraso al deslizar */
-  const precargar = () => document.querySelectorAll(".rail img, .cmb img, .combos img").forEach((im, k) => { im.decoding = "async"; if (im.loading === "lazy") setTimeout(() => { im.loading = "eager"; }, 60 * Math.min(k, 40)); });
-  if (document.readyState === "complete") setTimeout(precargar, 800); else addEventListener("load", () => setTimeout(precargar, 800));
+  const precargar = () => document.querySelectorAll(".rail img, .cmb img, .combos img").forEach((im, k) => { im.decoding = "async"; im.loading = "eager"; });
+  if (document.readyState === "complete") setTimeout(precargar, 100); else addEventListener("load", () => setTimeout(precargar, 100));
   on(); setTimeout(enfocar, 300);
 }
 function configurarCarril(id) {
